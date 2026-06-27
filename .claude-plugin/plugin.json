@@ -1,0 +1,22 @@
+{
+  "name": "logbook",
+  "displayName": "logbook",
+  "description": "A gitignored, file-based dev journal for any project — decisions (ADRs), phases, session summaries, troubleshooting runbooks, and session-to-session handoffs. One fact per file, cross-linked, with a cold-start /logbook:resume that reads you back into context. Survives context resets.",
+  "version": "0.1.0",
+  "author": {
+    "name": "the-snowmen"
+  },
+  "homepage": "https://github.com/the-snowmen/logbook",
+  "repository": "https://github.com/the-snowmen/logbook",
+  "license": "MIT",
+  "keywords": [
+    "journal",
+    "dev-journal",
+    "adr",
+    "decision-records",
+    "handoff",
+    "memory",
+    "notes",
+    "runbook"
+  ]
+}

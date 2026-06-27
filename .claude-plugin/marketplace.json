@@ -1,0 +1,17 @@
+{
+  "name": "logbook",
+  "owner": {
+    "name": "the-snowmen"
+  },
+  "metadata": {
+    "description": "logbook — a file-based dev journal for any project."
+  },
+  "plugins": [
+    {
+      "name": "logbook",
+      "source": "./",
+      "description": "A gitignored dev journal: decisions, phases, sessions, troubleshooting, and handoffs — with a cold-start resume.",
+      "version": "0.1.0"
+    }
+  ]
+}
