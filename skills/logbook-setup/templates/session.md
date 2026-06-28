@@ -13,7 +13,7 @@
 - {Test / check} — {result.}
 
 ## Notes / gotchas
-{Anything surprising, constraints, side effects. Promote real gotchas to /logbook:troubleshooting.}
+{Anything surprising, constraints, side effects. Promote real gotchas to /logbook:logbook-troubleshooting.}
 
 ## Next session
 {Pointer to the newest handoff, or the next steps.}
