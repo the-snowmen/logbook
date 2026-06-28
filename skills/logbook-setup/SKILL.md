@@ -21,7 +21,7 @@ Scaffold the dev journal for this repo. Full repo access. Idempotent — never c
 4. **Gitignore it (default).** Ensure a `/<dir>/` line exists in `.gitignore` (create `.gitignore` if
    absent). Tell the user it's local-only by default, and that they can remove the line to commit their
    records instead (the format is commit-safe either way).
-5. **Report** the tree created and the next step: `/logbook:logbook-resume` at the start of each session;
+5. **Report** the tree created and the next step: `/logbook:logbook-start` at the start of each session;
    `/logbook:logbook-decision` / `/logbook:logbook-handoff` etc. as you work.
 
 Keep it minimal and safe: additive only.

@@ -1,6 +1,6 @@
 ---
-name: logbook-session
-description: Write an end-of-session summary in the logbook journal — what happened, decisions resolved, what was built, verification, gotchas, next steps. Invoke with /logbook:logbook-session.
+name: logbook-end-session
+description: Write an end-of-session summary in the logbook journal — what happened, decisions resolved, what was built, verification, gotchas, next steps. Invoke with /logbook:logbook-end-session.
 disable-model-invocation: true
 ---
 

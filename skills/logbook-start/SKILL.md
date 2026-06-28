@@ -1,10 +1,10 @@
 ---
-name: logbook-resume
-description: Cold-start a session — read CLAUDE.md (if present) plus the newest handoff and the phase docs from the logbook journal, and summarize where you left off, what's in flight, and the open questions. Read-only; writes nothing. Invoke with /logbook:logbook-resume.
+name: logbook-start
+description: Cold-start a session — read CLAUDE.md (if present) plus the newest handoff and the phase docs from the logbook journal, and summarize where you left off, what's in flight, and the open questions. Read-only; writes nothing. Invoke with /logbook:logbook-start.
 disable-model-invocation: true
 ---
 
-# logbook: resume
+# logbook: start a session (read yourself back in)
 
 Read yourself back into context at the start of a session. **Read-only — make no edits.**
 

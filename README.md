@@ -18,7 +18,7 @@ your-repo/logbook/            # gitignored by default
 
 Per-turn reasoning is ephemeral. Anything worth keeping — a real decision, a hard-won fix, where you left
 off — lands in a small markdown file, cross-linked with `[[0001-slug]]` wikilinks. Next session you run
-`/logbook:logbook-resume` and you're back in context cold.
+`/logbook:logbook-start` and you're back in context cold.
 
 ## Why
 
@@ -44,22 +44,25 @@ flat files that live in the repo, outlast any single session, and read back fast
 | Command | What it does |
 |---|---|
 | `/logbook:logbook-setup` | Scaffold `logbook/` (subdirs + index), and gitignore it. Detects an existing `workflow/` and offers to use it. Idempotent. |
-| `/logbook:logbook-resume` | **Cold start.** Reads `CLAUDE.md` (if any) + the newest handoff + the phase docs + the index, and summarizes where you left off and what's open. Read-only. |
+| `/logbook:logbook-start` | **Cold start.** Reads `CLAUDE.md` (if any) + the newest handoff + the phase docs + the index, and summarizes where you left off and what's open. Read-only. |
 | `/logbook:logbook-decision` | New ADR in `decisions/NNNN-slug.md` (Context / Decision / Rejected / Consequences), auto-numbered, indexed. |
 | `/logbook:logbook-troubleshooting` | New runbook in `troubleshooting/NNNN-slug.md` (Problem / Solution / Verification / Prevention). |
-| `/logbook:logbook-phase` | Open or close a `phases/phase-N-slug.md` (Goals / Approach / Verification / Files / Next). |
-| `/logbook:logbook-session` | End-of-session summary in `sessions/YYYY-MM-DD-topic.md`. |
+| `/logbook:logbook-mark-phase` | Open or close a `phases/phase-N-slug.md` (Goals / Approach / Verification / Files / Next). |
+| `/logbook:logbook-end-session` | End-of-session summary in `sessions/YYYY-MM-DD-topic.md`. |
 | `/logbook:logbook-handoff` | The "start here next session" brief in `handoff/YYYY-MM-DD-topic.md` — the newest one wins. |
+| `/logbook:logbook-search <kw>` | Search the journal for a keyword across all entries, ranked. Read-only. |
+| `/logbook:logbook-audit` | Health check: stale handoff, open troubleshooting items, blocked/stalled phases, index drift. Read-only. |
+| `/logbook:logbook-help` | Quick-reference card: every command, lifecycle order, layout, conventions. |
 
 ## The loop
 
 A simple session rhythm the commands support:
 
-1. **Start** — `/logbook:logbook-resume`. Reads `CLAUDE.md` → newest handoff → phases. You're caught up.
+1. **Start** — `/logbook:logbook-start`. Reads `CLAUDE.md` → newest handoff → phases. You're caught up.
 2. **During** — a real decision → `/logbook:logbook-decision`; a problem solved → `/logbook:logbook-troubleshooting`.
-3. **End** — `/logbook:logbook-session` (what happened) + `/logbook:logbook-handoff` (what's next). Newest handoff wins.
+3. **End** — `/logbook:logbook-end-session` (what happened) + `/logbook:logbook-handoff` (what's next). Newest handoff wins.
 
-Phase-driven work adds `/logbook:logbook-phase` at each boundary.
+Phase-driven work adds `/logbook:logbook-mark-phase` at each boundary.
 
 ## Conventions
 

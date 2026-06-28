@@ -1,13 +1,13 @@
 ---
 name: logbook-handoff
-description: Write the "start here next session" brief in the logbook journal — state coming in, the goal, design references, open questions, working rules, and a verified starting state. The newest handoff is what /logbook:logbook-resume reads first. Invoke with /logbook:logbook-handoff.
+description: Write the "start here next session" brief in the logbook journal — state coming in, the goal, design references, open questions, working rules, and a verified starting state. The newest handoff is what /logbook:logbook-start reads first. Invoke with /logbook:logbook-handoff.
 disable-model-invocation: true
 ---
 
 # logbook: handoff
 
 Write the brief that reads the *next* session back into context. The newest handoff wins — it's the first
-thing `/logbook:logbook-resume` reads.
+thing `/logbook:logbook-start` reads.
 
 ## Procedure
 1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:logbook-setup` and stop).
