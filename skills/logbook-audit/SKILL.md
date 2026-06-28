@@ -16,7 +16,7 @@ Check the journal's health and report what needs attention. **Read-only — make
    - **Handoff freshness** — find the newest `<dir>/handoff/YYYY-MM-DD-*.md`. Compare its date to today
      (`date +%F`). Flag if older than ~14 days, or if there is no handoff at all.
    - **Open troubleshooting** — scan `<dir>/troubleshooting/*.md` for a Status of `Open` / `Workaround`
-     (not `Resolved`). List each by file + title.
+     (not `Solved`). List each by file + title.
    - **Phases** — scan `<dir>/phases/*.md`: flag any `⛔ Blocked`, and any `⏳ In progress` whose newest
      related activity is old (possible stalled phase). Note phases with no closing Verification.
    - **Index drift** — compare files on disk against what `<dir>/README.md` lists. Flag files missing from

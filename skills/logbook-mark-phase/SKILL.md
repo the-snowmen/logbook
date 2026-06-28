@@ -15,8 +15,11 @@ Record a phase boundary — the plan when you open it, the outcome when you clos
    Status `⏳ In progress`, fill **Goals** and the intended **Approach** from the conversation.
 4. **Close** (file exists, or `--close`): set Status `✅ Complete ({date}, commit `{short SHA}`)` — get the
    SHA via `git rev-parse --short HEAD` — and fill **Verification** (what you ran + results), **Deviations**,
-   **Files created/changed**, and **Next**. Link resolved decisions as `[[NNNN-slug]]`.
-5. **Update the index** `<dir>/README.md` under **Phases**, and the phase-status table in `CLAUDE.md` if
-   one exists.
+   **Files created/changed**, and **Next**. Scan `<dir>/decisions/` and `<dir>/troubleshooting/` for entries
+   added since this phase opened (by date) and **link the ones this phase resolved** as `[[NNNN-slug]]` —
+   ask the user which apply if unsure.
+5. **Update the index** `<dir>/README.md` under **Phases**. If a `## Phases` table exists in `CLAUDE.md`,
+   update this phase's row (status + completion date/commit); if not and the user wants project state
+   centralized, offer to add one.
 6. **Report** the path + status. On close, remind the user that a phase boundary is a natural stop point —
    consider `/logbook:logbook-end-session` + `/logbook:logbook-handoff` before moving on.

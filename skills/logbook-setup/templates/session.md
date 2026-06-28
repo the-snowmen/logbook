@@ -3,8 +3,11 @@
 ## What happened
 {Narrative of the session's work.}
 
-## Decisions / open questions resolved
-- {Decision or resolved question} → [[{NNNN-slug}]].
+## Decisions resolved (new ADRs)
+- {Decision locked in this session} → [[{NNNN-slug}]].
+
+## Open questions answered (inline)
+- Q: {question} — A: {answer}. {If it's architectural, promote to an ADR with /logbook:logbook-decision.}
 
 ## Built
 - {Major artifact} → {path or [[link]].}

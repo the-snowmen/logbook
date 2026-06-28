@@ -14,3 +14,6 @@
 
 ## Consequences
 {Impact on architecture, files, and future work. Reversibility. Link related records via [[NNNN-slug]].}
+
+## See also
+{Related ADRs · the phase this informs · troubleshooting it resolves — [[NNNN-slug]], [[phase-N-slug]]. Leave blank if none.}

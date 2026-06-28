@@ -9,6 +9,9 @@ starting state.}
 ## Goal
 {What the next session should accomplish or decide.}
 
+## Scope & cadence
+{Multi-day vs a quick checkpoint · the next milestone · rough effort. Lets the next session calibrate.}
+
 ## Design references (read before coding)
 {Pointers to CLAUDE.md sections, README, ADRs, troubleshooting docs — [[NNNN-slug]].}
 

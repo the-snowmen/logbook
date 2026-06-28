@@ -24,7 +24,11 @@ Read yourself back into context at the start of a session. **Read-only — make 
    - **Open questions** the handoff says to resolve early (surface these prominently).
    - **Suggested next step.**
    - Note any unresolved troubleshooting items.
-4. Point the user at the files you read (clickable paths) so they can dive in.
+4. **Offer a baseline check (optional).** If the newest handoff has a `## Verified starting state` block,
+   offer to run those commands and compare against what it recorded — flag any drift (extra commits, a
+   failing test, a dirty tree). Ask first; don't run them unprompted. This is the one place start may
+   execute commands — it still writes nothing to the journal.
+5. Point the user at the files you read (clickable paths) so they can dive in.
 
 Do not modify anything. If the journal looks stale (newest handoff is old, or phases lag the code), say
 so — it's a signal to write a fresh handoff at the end of this session.
