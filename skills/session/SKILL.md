@@ -9,7 +9,7 @@ disable-model-invocation: true
 Capture what this session actually did, before it evaporates.
 
 ## Procedure
-1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:init` and stop).
+1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:setup` and stop).
 2. **Filename:** `<dir>/sessions/YYYY-MM-DD-topic.md` (today's date via `date +%F`; short kebab-case topic).
 3. **Fill** from `${CLAUDE_PLUGIN_ROOT}/skills/init/templates/session.md` using this session's actual work:
    what happened, decisions/questions resolved (link `[[NNNN-slug]]`), what was built (with paths),

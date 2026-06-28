@@ -9,7 +9,7 @@ disable-model-invocation: true
 Capture a real decision as an ADR so it isn't relitigated later.
 
 ## Procedure
-1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:init` and stop).
+1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:setup` and stop).
 2. **Next number:** scan `<dir>/decisions/` for the highest `NNNN` prefix; use the next one, zero-padded
    to 4 (`0001`, `0002`, …). Pick a short kebab-case slug from the decision.
 3. **Gather content** from the user's request and the recent conversation. If the decision, its rejected

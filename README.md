@@ -43,7 +43,7 @@ flat files that live in the repo, outlast any single session, and read back fast
 
 | Command | What it does |
 |---|---|
-| `/logbook:init` | Scaffold `logbook/` (subdirs + index), and gitignore it. Detects an existing `workflow/` and offers to use it. Idempotent. |
+| `/logbook:setup` | Scaffold `logbook/` (subdirs + index), and gitignore it. Detects an existing `workflow/` and offers to use it. Idempotent. |
 | `/logbook:resume` | **Cold start.** Reads `CLAUDE.md` (if any) + the newest handoff + the phase docs + the index, and summarizes where you left off and what's open. Read-only. |
 | `/logbook:decision` | New ADR in `decisions/NNNN-slug.md` (Context / Decision / Rejected / Consequences), auto-numbered, indexed. |
 | `/logbook:troubleshooting` | New runbook in `troubleshooting/NNNN-slug.md` (Problem / Solution / Verification / Prevention). |
@@ -66,7 +66,7 @@ Phase-driven work adds `/logbook:phase` at each boundary.
 - **One fact per file**, cross-linked with `[[name]]` wikilinks.
 - **Numbering:** `decisions/` and `troubleshooting/` use zero-padded `NNNN-slug`; `sessions/` and
   `handoff/` use `YYYY-MM-DD-topic`; `phases/` use `phase-N-slug`.
-- **Gitignored by default** — a local journal, not published. `/logbook:init` adds `/logbook/` to
+- **Gitignored by default** — a local journal, not published. `/logbook:setup` adds `/logbook/` to
   `.gitignore`. Want to commit your ADRs instead? Remove that line; the format is commit-safe either way.
 - **The index** (`logbook/README.md`) is kept current as entries are added.
 

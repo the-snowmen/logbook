@@ -9,7 +9,7 @@ disable-model-invocation: true
 Record a phase boundary — the plan when you open it, the outcome when you close it.
 
 ## Procedure
-1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:init` and stop).
+1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:setup` and stop).
 2. **Determine the phase** number `N` and a kebab-case slug. Existing file = `<dir>/phases/phase-N-slug.md`.
 3. **Open** (no file yet): create it from `${CLAUDE_PLUGIN_ROOT}/skills/init/templates/phase.md` with
    Status `⏳ In progress`, fill **Goals** and the intended **Approach** from the conversation.

@@ -1,6 +1,6 @@
 ---
-name: init
-description: Scaffold a gitignored logbook/ dev journal in this repo — decisions, phases, troubleshooting, sessions, and handoff subdirs plus an index — and add it to .gitignore. Idempotent; detects an existing workflow/ journal. Invoke with /logbook:init.
+name: setup
+description: Scaffold a gitignored logbook/ dev journal in this repo — decisions, phases, troubleshooting, sessions, and handoff subdirs plus an index — and add it to .gitignore. Idempotent; detects an existing workflow/ journal. Invoke with /logbook:setup.
 disable-model-invocation: true
 ---
 

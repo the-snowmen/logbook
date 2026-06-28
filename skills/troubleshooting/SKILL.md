@@ -9,7 +9,7 @@ disable-model-invocation: true
 Capture a solved problem as a reusable runbook entry.
 
 ## Procedure
-1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:init` and stop).
+1. **Find the journal dir** (`./logbook/`, else `./workflow/`; if neither, suggest `/logbook:setup` and stop).
 2. **Next number:** highest `NNNN` in `<dir>/troubleshooting/` + 1, zero-padded to 4. Short kebab-case slug.
 3. **Gather content** from the recent conversation: the symptom, the root cause, the fix, how it was
    verified, and the lasting prevention. Pull the actual error text / command if available.

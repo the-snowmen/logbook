@@ -10,7 +10,7 @@ Read yourself back into context at the start of a session. **Read-only — make 
 
 ## Procedure
 1. **Find the journal dir:** `./logbook/`, else `./workflow/`. If neither exists, say so and suggest
-   `/logbook:init`; stop.
+   `/logbook:setup`; stop.
 2. **Read, in this order:**
    - `CLAUDE.md` at the repo root (if present) — the locked rules/architecture.
    - The **newest** file in `<dir>/handoff/` (highest `YYYY-MM-DD` in the name) — the "start here" brief.
