@@ -30,6 +30,11 @@ flat files that live in the repo, outlast any single session, and read back fast
 ## Install
 
 ```bash
+# from the snowmen-plugins catalog — one marketplace for all my plugins
+/plugin marketplace add the-snowmen/snowmen-plugins
+/plugin install logbook@snowmen-plugins
+
+# …or straight from this repo's own marketplace
 /plugin marketplace add the-snowmen/logbook
 /plugin install logbook
 ```
