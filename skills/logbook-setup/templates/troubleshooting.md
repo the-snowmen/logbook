@@ -16,3 +16,5 @@
 
 ## See also
 {Related decisions / phases / runbooks — [[NNNN-slug]], [[phase-N-slug]]. Leave blank if none.}
+
+*Recorded: {YYYY-MM-DD} ({auto | suggest | manual})*

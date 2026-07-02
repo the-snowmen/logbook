@@ -1,7 +1,6 @@
 ---
 name: logbook-setup
-description: Scaffold a gitignored logbook/ dev journal in this repo — decisions, phases, troubleshooting, sessions, and handoff subdirs plus an index — and add it to .gitignore. Idempotent; detects an existing workflow/ journal. Invoke with /logbook:logbook-setup.
-disable-model-invocation: true
+description: Scaffold a gitignored logbook/ dev journal in this repo — decisions, phases, troubleshooting, sessions, and handoff subdirs plus an index — and add it to .gitignore. Use ONLY when the user explicitly asks for a logbook or accepts the session-start suggestion — never uninvited. Idempotent; detects an existing workflow/ journal. Also /logbook:logbook-setup.
 ---
 
 # logbook: init
@@ -21,7 +20,22 @@ Scaffold the dev journal for this repo. Full repo access. Idempotent — never c
 4. **Gitignore it (default).** Ensure a `/<dir>/` line exists in `.gitignore` (create `.gitignore` if
    absent). Tell the user it's local-only by default, and that they can remove the line to commit their
    records instead (the format is commit-safe either way).
-5. **Report** the tree created and the next step: `/logbook:logbook-start` at the start of each session;
-   `/logbook:logbook-decision` / `/logbook:logbook-handoff` etc. as you work.
+5. **Ask about tracking mode.** logbook is always-on by default: sessions in this repo now start with an
+   automatic read-back digest, and entries are recorded as work happens. **The config is user-global**
+   (`~/.config/logbook/config.json` governs every journaled repo on this machine) — read it first if it
+   exists and mention its current values when asking. Ask which mode the user wants — **auto** (default:
+   write entries as they happen, report after), **suggest** (propose first, wait for a yes), or
+   **manual** (only on explicit `/logbook` commands) — plus whether to enable the optional stop-guard
+   (blocks the first stop after substantial unjournaled work; default off). Write the file whenever the
+   chosen answers differ from its current effective values (or from the defaults when no file exists),
+   e.g.:
+   ```json
+   { "mode": "suggest", "reminder": "throttled", "stopGuard": false, "suggestSetup": true }
+   ```
+   Mention the env overrides (`LOGBOOK_MODE`, `LOGBOOK_REMINDER`, `LOGBOOK_STOP_GUARD`,
+   `LOGBOOK_SUGGEST_SETUP`) for one-off sessions.
+6. **Report** the tree created and what happens next: from the next session on, the journal is read back
+   automatically at session start; during work, decisions and fixes are recorded per the chosen mode;
+   `/logbook:logbook-help` shows the full reference.
 
 Keep it minimal and safe: additive only.

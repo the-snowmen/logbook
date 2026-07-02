@@ -10,8 +10,7 @@
     {
       "name": "logbook",
       "source": "./",
-      "description": "A gitignored dev journal: decisions, phases, sessions, troubleshooting, and handoffs — with a cold-start resume.",
-      "version": "0.1.0"
+      "description": "An always-on, gitignored dev journal: decisions, phases, sessions, troubleshooting, and handoffs — auto read-back at session start, records as you work."
     }
   ]
 }

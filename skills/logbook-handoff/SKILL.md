@@ -1,7 +1,6 @@
 ---
 name: logbook-handoff
-description: Write the "start here next session" brief in the logbook journal — state coming in, the goal, design references, open questions, working rules, and a verified starting state. The newest handoff is what /logbook:logbook-start reads first. Invoke with /logbook:logbook-handoff.
-disable-model-invocation: true
+description: Write the "start here next session" brief in the project's logbook journal (handoff/YYYY-MM-DD-topic.md; newest wins) — state coming in, the goal, design references, open questions, working rules, and a verified starting state. Use immediately after an end-of-session summary, when the user is wrapping up, or when a logbook reminder says the handoff is missing or stale. The newest handoff is what the next session's read-back digest shows first. Also /logbook:logbook-handoff.
 ---
 
 # logbook: handoff
@@ -23,3 +22,12 @@ thing `/logbook:logbook-start` reads.
 4. **Update the index** `<dir>/README.md` under **Handoff**, marking this one `← newest` and de-marking
    the previous.
 5. **Report** the path and a one-line "next session will pick up at: …".
+
+## Model-invocation etiquette (when auto-triggered by logbook mode)
+- Obey the session's logbook mode (stated in the session-start digest): **auto** — write immediately,
+  then report the path in one line; **suggest** — propose in one line and wait for a yes; **manual** —
+  only act on an explicit `/logbook` command.
+- **Dedupe before writing:** if a handoff for today already exists, update it (it stays the newest)
+  instead of creating a second file for the same day.
+- The "Verified starting state" commands may take a moment — in auto mode run only cheap ones
+  (`git status`, a fast test target); note anything skipped.

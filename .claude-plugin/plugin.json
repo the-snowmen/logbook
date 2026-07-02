@@ -1,8 +1,8 @@
 {
   "name": "logbook",
   "displayName": "logbook",
-  "description": "A gitignored, file-based dev journal for any project — decisions (ADRs), phases, session summaries, troubleshooting runbooks, and session-to-session handoffs. One fact per file, cross-linked, with a cold-start /logbook:logbook-start that reads you back into context. Survives context resets.",
-  "version": "0.5.0",
+  "description": "An always-on, gitignored dev journal for any project — decisions (ADRs), phases, session summaries, troubleshooting runbooks, and session-to-session handoffs. Sessions auto-start with a read-back digest, work is recorded as it happens, and a compaction-safe checkpoint protects against context loss. Survives context resets.",
+  "version": "0.6.0",
   "author": {
     "name": "the-snowmen"
   },
@@ -17,6 +17,66 @@
     "handoff",
     "memory",
     "notes",
-    "runbook"
-  ]
+    "runbook",
+    "hooks",
+    "always-on"
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/hooks/logbook-activate.js\"",
+            "timeout": 5,
+            "statusMessage": "Reading logbook..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/hooks/logbook-tracker.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/hooks/logbook-precompact.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/hooks/logbook-stop.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/src/hooks/logbook-session-end.js\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
 }

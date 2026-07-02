@@ -1,7 +1,6 @@
 ---
 name: logbook-search
-description: Search the logbook journal for a keyword or phrase across decisions, troubleshooting runbooks, phases, sessions, and handoffs — ranked results with the matching context, so you can find a past decision or fix instead of re-deriving it. Invoke with /logbook:logbook-search <keyword>. Read-only.
-disable-model-invocation: true
+description: Search the project's logbook journal for a keyword or phrase across decisions, troubleshooting runbooks, phases, sessions, and handoffs — ranked results with the matching context. Use when the project has a logbook/ (or workflow/) journal and the user asks why something was decided, whether a bug was seen before, or what a past session did — check the journal before re-deriving an answer. Read-only. Also /logbook:logbook-search <keyword>.
 ---
 
 # logbook: search the journal

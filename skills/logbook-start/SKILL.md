@@ -8,6 +8,11 @@ disable-model-invocation: true
 
 Read yourself back into context at the start of a session. **Read-only — make no edits.**
 
+> **Hook mode note:** when the logbook plugin's SessionStart hook is active, the session already opened
+> with an automatic digest (newest handoff, in-progress phases, open troubleshooting). This command is
+> the **deep** read-back — read everything below in full, but don't re-summarize what the digest already
+> covered; go straight to what's new or deeper.
+
 ## Procedure
 1. **Find the journal dir:** `./logbook/`, else `./workflow/`. If neither exists, say so and suggest
    `/logbook:logbook-setup`; stop.

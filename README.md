@@ -1,10 +1,12 @@
 # logbook
 
-**A file-based dev journal for any project — so the *why* survives context resets.**
+**An always-on, file-based dev journal for any project — so the *why* survives context resets.**
 
-logbook is a [Claude Code](https://claude.com/claude-code) plugin. It scaffolds and maintains a small,
-gitignored journal in your repo that captures the decisions, dead-ends, and state that normally evaporate
-between sessions — and reads you back into context on demand.
+logbook is a [Claude Code](https://claude.com/claude-code) plugin. It maintains a small, gitignored
+journal in your repo that captures the decisions, dead-ends, and state that normally evaporate between
+sessions — and from v0.6.0 it runs itself: every session in a journaled repo starts with an automatic
+read-back, entries are recorded as work happens, and a compaction-safe checkpoint protects the story
+when context runs out.
 
 ```
 your-repo/logbook/            # gitignored by default
@@ -16,16 +18,58 @@ your-repo/logbook/            # gitignored by default
   handoff/2026-06-27-topic.md # "start here next session" — newest wins
 ```
 
-Per-turn reasoning is ephemeral. Anything worth keeping — a real decision, a hard-won fix, where you left
-off — lands in a small markdown file, cross-linked with `[[0001-slug]]` wikilinks. Next session you run
-`/logbook:logbook-start` and you're back in context cold.
-
 ## Why
 
 The model forgets. You forget. Six weeks later nobody remembers *why* the buffer math is geodesic, what
 the three rejected alternatives were, or what the half-finished branch was supposed to do. A chat history
 doesn't help — it's unsearchable and gone on the next `/clear`. logbook turns the durable parts into
-flat files that live in the repo, outlast any single session, and read back fast.
+flat files that live in the repo, outlast any single session, and read back fast — automatically.
+
+## Always-on: what happens without you asking
+
+Once a repo has a journal (`/logbook:logbook-setup`, once), the plugin's hooks take over the lifecycle:
+
+- **Session start** — the newest handoff, in-progress phases, and open troubleshooting items are injected
+  into context automatically. No command needed; you're caught up before the first prompt.
+- **During work** — decisions, fixes, and phase boundaries are recorded as they happen (see *Tracking
+  modes* below). A light, throttled reminder keeps the journal in the model's attention on long sessions.
+- **Context compaction** — if Claude's context gets compacted mid-session, the next turn opens with a
+  checkpoint instruction: save what would be lost (a brief session entry marked "checkpoint" + a fresh
+  handoff), then resume the task.
+- **Wrap-up** — saying "done for today" / "stop here" triggers the end-of-session summary and handoff.
+- **Gap detection** — if a session ended without being recorded (crash, closed terminal), the next
+  session start notices commits newer than the last session entry and offers a backfill from `git log`.
+- **New projects** — in a repo with no journal, session start suggests `/logbook:logbook-setup` exactly
+  once, then never mentions it again.
+
+In repos without a journal the hooks stay silent (beyond that one-time suggestion). Requires `node` on
+PATH; without it the hooks simply don't fire and every command still works manually.
+
+### Tracking modes
+
+| Mode | Behavior |
+|---|---|
+| `auto` *(default)* | Entries are written as they happen; you get a one-line report after. |
+| `suggest` | Claude proposes ("Record this as an ADR?") and waits for a yes. |
+| `manual` | Exactly the pre-0.6.0 behavior — the read-back digest still appears, but nothing is written except on explicit `/logbook` commands. |
+
+Configure in `~/.config/logbook/config.json` (asked once during `logbook-setup`):
+
+```json
+{ "mode": "auto", "reminder": "throttled", "stopGuard": false, "suggestSetup": true }
+```
+
+- `reminder`: `throttled` (default: every ~5 turns / 20 min) · `every-turn` · `off`
+- `stopGuard`: `true` blocks the first stop after substantial unjournaled work until a session entry is
+  written (or Claude says in one line that it's skipping). Off by default; the compaction checkpoint +
+  gap detection already cover the common failure modes without ever blocking.
+- `suggestSetup`: `false` silences the one-time setup suggestion in un-journaled repos.
+- Per-session env overrides: `LOGBOOK_MODE`, `LOGBOOK_REMINDER`, `LOGBOOK_STOP_GUARD`,
+  `LOGBOOK_SUGGEST_SETUP`.
+
+Hook state lives in `~/.claude/logbook/` (never inside your repo's journal, so committing the journal
+never leaks machine-local state). Fully-manual recipe: set `"mode": "manual", "reminder": "off"` — or
+just uninstall the hooks' plugin and keep using the commands from an older install.
 
 ## Install
 
@@ -39,30 +83,34 @@ flat files that live in the repo, outlast any single session, and read back fast
 /plugin install logbook
 ```
 
+After installing or updating, **restart Claude Code** — hooks are registered at startup.
+
 ## Commands
 
-| Command | What it does |
-|---|---|
-| `/logbook:logbook-setup` | Scaffold `logbook/` (subdirs + index), and gitignore it. Detects an existing `workflow/` and offers to use it. Idempotent. |
-| `/logbook:logbook-start` | **Cold start.** Reads `CLAUDE.md` (if any) + the newest handoff + the phase docs + the index, and summarizes where you left off and what's open. Read-only. |
-| `/logbook:logbook-decision` | New ADR in `decisions/NNNN-slug.md` (Context / Decision / Rejected / Consequences), auto-numbered, indexed. |
-| `/logbook:logbook-troubleshooting` | New runbook in `troubleshooting/NNNN-slug.md` (Problem / Solution / Verification / Prevention). |
-| `/logbook:logbook-mark-phase` | Open or close a `phases/phase-N-slug.md` (Goals / Approach / Verification / Files / Next). |
-| `/logbook:logbook-end-session` | End-of-session summary in `sessions/YYYY-MM-DD-topic.md`. |
-| `/logbook:logbook-handoff` | The "start here next session" brief in `handoff/YYYY-MM-DD-topic.md` — the newest one wins. |
-| `/logbook:logbook-search <kw>` | Search the journal for a keyword across all entries, ranked. Read-only. |
-| `/logbook:logbook-audit` | Health check: stale handoff, open troubleshooting items, blocked/stalled phases, index drift. Read-only. |
-| `/logbook:logbook-help` | Quick-reference card: every command, lifecycle order, layout, conventions. |
+"Auto" marks commands the model may invoke on its own when logbook mode is active; everything is always
+available as an explicit slash command too.
 
-## The loop
+| Command | Auto | What it does |
+|---|---|---|
+| `/logbook:logbook-setup` | on invitation | Scaffold `logbook/` (subdirs + index), gitignore it, ask your tracking mode. Detects an existing `workflow/` journal. Idempotent. |
+| `/logbook:logbook-start` | — | **Deep read-back.** The session already opened with a digest; this reads everything in full (CLAUDE.md, handoff, all phases, index) plus an optional baseline check. Read-only. |
+| `/logbook:logbook-decision` | ✓ | New ADR in `decisions/NNNN-slug.md` (Context / Decision / Rejected / Consequences), auto-numbered, indexed. |
+| `/logbook:logbook-troubleshooting` | ✓ | New runbook in `troubleshooting/NNNN-slug.md` (Problem / Solution / Verification / Prevention). |
+| `/logbook:logbook-mark-phase` | ✓ (closes confirmed) | Open or close a `phases/phase-N-slug.md` (Goals / Approach / Verification / Files / Next). |
+| `/logbook:logbook-end-session` | ✓ | End-of-session summary in `sessions/YYYY-MM-DD-topic.md`; updates today's file if one exists. |
+| `/logbook:logbook-handoff` | ✓ | The "start here next session" brief in `handoff/YYYY-MM-DD-topic.md` — the newest one wins. |
+| `/logbook:logbook-search <kw>` | ✓ | Search the journal for a keyword across all entries, ranked. Read-only. |
+| `/logbook:logbook-audit` | — | Health check: stale handoff, open items, blocked phases, index drift, unpromoted ADR rules. Read-only. |
+| `/logbook:logbook-help` | — | Quick-reference card: every command, the always-on lifecycle, layout, conventions. |
 
-A simple session rhythm the commands support:
+## The loop (now mostly automatic)
 
-1. **Start** — `/logbook:logbook-start`. Reads `CLAUDE.md` → newest handoff → phases. You're caught up.
-2. **During** — a real decision → `/logbook:logbook-decision`; a problem solved → `/logbook:logbook-troubleshooting`.
-3. **End** — `/logbook:logbook-end-session` (what happened) + `/logbook:logbook-handoff` (what's next). Newest handoff wins.
+1. **Start** — automatic. The session opens with the newest handoff, in-flight phases, and open items.
+2. **During** — a real decision or a solved problem is recorded as it lands (per your tracking mode).
+3. **End** — say you're wrapping up; the session summary and handoff are written. The newest handoff is
+   what the next session's digest shows first.
 
-Phase-driven work adds `/logbook:logbook-mark-phase` at each boundary.
+Phase-driven work adds `/logbook:logbook-mark-phase` at each boundary (closing always confirmed with you).
 
 ## Conventions
 
@@ -72,6 +120,8 @@ Phase-driven work adds `/logbook:logbook-mark-phase` at each boundary.
 - **Gitignored by default** — a local journal, not published. `/logbook:logbook-setup` adds `/logbook/` to
   `.gitignore`. Want to commit your ADRs instead? Remove that line; the format is commit-safe either way.
 - **The index** (`logbook/README.md`) is kept current as entries are added.
+- **Dedupe rule:** auto-recorded entries never duplicate — an existing entry on the same fact or day is
+  updated, not re-created.
 
 ## Pairs well with
 
@@ -80,8 +130,9 @@ fresh-eyes synthesis is a natural source for a `/logbook:logbook-decision` ("we'
 
 ## Credits
 
-Built by [@the-snowmen](https://github.com/the-snowmen) with **Claude Code** (Claude Opus 4.8) as a
-pair-programming contributor.
+Built by [@the-snowmen](https://github.com/the-snowmen) with **Claude Code** as a pair-programming
+contributor. The always-on hook pattern is modeled on
+[caveman](https://github.com/JuliusBrussee/caveman)'s session hooks.
 
 ## License
 

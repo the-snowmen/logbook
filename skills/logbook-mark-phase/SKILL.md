@@ -1,7 +1,6 @@
 ---
 name: logbook-mark-phase
-description: Open or close a phase record in the logbook journal — Goals, Approach, Verification, Files, Next — to mark a milestone boundary. Invoke with /logbook:logbook-mark-phase (say which phase, and whether you're opening or closing it).
-disable-model-invocation: true
+description: Open or close a phase/milestone record in the project's logbook journal — Goals, Approach → Verification, Files, Next. Use when logbook mode is active and a milestone clearly begins or completes; ALWAYS confirm with the user before closing a phase. Also /logbook:logbook-mark-phase (say which phase, opening or closing).
 ---
 
 # logbook: phase
@@ -23,3 +22,10 @@ Record a phase boundary — the plan when you open it, the outcome when you clos
    centralized, offer to add one.
 6. **Report** the path + status. On close, remind the user that a phase boundary is a natural stop point —
    consider `/logbook:logbook-end-session` + `/logbook:logbook-handoff` before moving on.
+
+## Model-invocation etiquette (when auto-triggered by logbook mode)
+- Closing a phase is a judgment call — **always confirm with the user first**, whatever the mode.
+  Opening one in auto mode may proceed directly; report the path in one line.
+- **Dedupe before writing:** check `<dir>/phases/` for an existing record of the same phase — update it
+  instead of creating a duplicate.
+- Journal at natural pauses — never interrupt mid-task work to journal.

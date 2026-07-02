@@ -17,3 +17,5 @@
 
 ## See also
 {Related ADRs · the phase this informs · troubleshooting it resolves — [[NNNN-slug]], [[phase-N-slug]]. Leave blank if none.}
+
+*Recorded: {YYYY-MM-DD} ({auto | suggest | manual})*

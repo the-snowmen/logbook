@@ -23,6 +23,9 @@ Check the journal's health and report what needs attention. **Read-only — make
      the index and index entries pointing at files that no longer exist.
    - **Broken cross-links** — spot-check `[[NNNN-slug]]` / `[[phase-N-slug]]` references that don't
      resolve to an existing file.
+   - **Unpromoted rules** — scan Accepted ADRs in `<dir>/decisions/` for ones that establish a standing
+     rule (a convention, constraint, or "always/never") not yet reflected in `CLAUDE.md`; list each as a
+     candidate one-liner to promote.
 3. **Report** a short "Logbook health" summary: a ✅/⚠️ line per check, then a concrete action list
    (e.g. "→ write a fresh `/logbook:logbook-handoff`", "→ resolve or close `0004-...`",
    "→ re-run `/logbook:logbook-setup` to rebuild the index" — note setup is idempotent and won't clobber).

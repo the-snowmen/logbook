@@ -1,4 +1,6 @@
 # Session — {YYYY-MM-DD} — {Topic}
+{Convention: a mid-session save written after context compaction appends "(checkpoint)" to the Topic;
+finalize it into the real summary at session end — update this file, don't create a second one.}
 
 ## What happened
 {Narrative of the session's work.}
